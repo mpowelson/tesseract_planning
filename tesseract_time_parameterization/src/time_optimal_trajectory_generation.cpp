@@ -689,6 +689,7 @@ bool Trajectory::integrateForward(std::list<TrajectoryStep>& trajectory, double 
     {
       valid_ = false;
       CONSOLE_BRIDGE_logError("Error while integrating forward: Negative path velocity");
+      CONSOLE_BRIDGE_logError("Prev vel= %f. path_vel (%f) += time_step_(%f) * acceleration(%f)", old_path_vel, path_vel, time_step_, acceleration);
       return true;
     }
 
