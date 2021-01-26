@@ -21,11 +21,20 @@ inline CompositeInstruction freespaceExampleProgramIIWA(const std::string& compo
   PlanInstruction start_instruction(wp1, PlanInstructionType::START);
   program.setStartInstruction(start_instruction);
 
-  // Define target pose
-  Waypoint wp2 = CartesianWaypoint(Eigen::Isometry3d::Identity() * Eigen::Translation3d(0.2, 0.2, 1.0));
-  PlanInstruction plan_f0(wp2, PlanInstructionType::FREESPACE, freespace_profile);
-  plan_f0.setDescription("freespace_motion");
-  program.push_back(plan_f0);
+  // Define target pose 1
+  {
+    Waypoint wp2 = CartesianWaypoint(Eigen::Isometry3d::Identity() * Eigen::Translation3d(0.2, 0.2, 1.0));
+    PlanInstruction plan_f0(wp2, PlanInstructionType::FREESPACE, freespace_profile);
+    plan_f0.setDescription("freespace_motion");
+    program.push_back(plan_f0);
+  }
+  // Define target pose 2
+  {
+    Waypoint wp3 = JointWaypoint(joint_names, Eigen::VectorXd::Ones(7) * 0.1);
+    PlanInstruction plan_f1(wp3, PlanInstructionType::FREESPACE, freespace_profile);
+    plan_f1.setDescription("freespace_motion");
+    program.push_back(plan_f1);
+  }
 
   return program;
 }
