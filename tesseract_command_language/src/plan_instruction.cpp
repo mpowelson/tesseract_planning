@@ -55,6 +55,30 @@ void PlanInstruction::setProfile(const std::string& profile)
 }
 const std::string& PlanInstruction::getProfile() const { return profile_; }
 
+void PlanInstruction::addProfileOverride(const std::string& task_name, std::shared_ptr<const void> profile)
+{
+  profile_overrides_[task_name] = profile;
+}
+
+void PlanInstruction::removeProfileOverride(const std::string& task_name) { profile_overrides_.erase(task_name); }
+
+const std::shared_ptr<const void>& PlanInstruction::getProfileOverride(const std::string& task_name) const
+{
+  if (profile_overrides_.find(task_name) == profile_overrides_.end())
+  {
+    return nullptr;
+  }
+  else
+  {
+    return profile_overrides_.at(task_name);
+  }
+}
+
+std::unordered_map<std::string, std::shared_ptr<const void>> PlanInstruction::getProfileOverrides() const
+{
+  return profile_overrides_;
+}
+
 int PlanInstruction::getType() const { return type_; }
 
 const std::string& PlanInstruction::getDescription() const { return description_; }

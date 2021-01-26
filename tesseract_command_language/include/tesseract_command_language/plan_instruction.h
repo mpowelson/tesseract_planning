@@ -67,6 +67,21 @@ public:
   void setProfile(const std::string& profile);
   const std::string& getProfile() const;
 
+  /** @brief Add a profile object that will override the named profile for a specific task
+   * @param task_name Name of the task to which this profile will be applied
+   * @param profile ConstPtr to profile of appropriate type for the given task  */
+  void addProfileOverride(const std::string& task_name, std::shared_ptr<const void> profile);
+  /** @brief Removes a profile override
+   * @param task_name Name of task whose profile override should be removed  */
+  void removeProfileOverride(const std::string& task_name);
+  /** @brief Get profile override for named task
+   * @param task_name Name of the task whose profile override should be retrieved
+   * @return Profile override if task_name found. Otherwise, nullptr.  */
+  const std::shared_ptr<const void>& getProfileOverride(const std::string& task_name) const;
+  /** @brief getProfileOverrides
+   * @return Copy of the profile override map */
+  std::unordered_map<std::string, std::shared_ptr<const void>> getProfileOverrides() const;
+
   int getType() const;
 
   const std::string& getDescription() const;
@@ -99,6 +114,9 @@ private:
 
   /** @brief The profile used for this plan instruction */
   std::string profile_{ DEFAULT_PROFILE_KEY };
+
+  /** @brief Overrides used to replace named profile specified for a specific task */
+  std::unordered_map<std::string, std::shared_ptr<const void>> profile_overrides_;
 
   /** @brief Contains information about the manipulator associated with this instruction*/
   ManipulatorInfo manipulator_info_;

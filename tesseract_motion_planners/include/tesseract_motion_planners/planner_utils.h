@@ -146,11 +146,18 @@ template <typename ProfileType>
 std::shared_ptr<const ProfileType>
 getProfile(const std::string& profile,
            const std::unordered_map<std::string, std::shared_ptr<const ProfileType>>& profile_map,
-           std::shared_ptr<const ProfileType> default_profile = nullptr)
+           std::shared_ptr<const ProfileType> default_profile = nullptr,
+           std::shared_ptr<const void> profile_override = nullptr)
 {
-  std::shared_ptr<const ProfileType> results;
-  auto it = profile_map.find(profile);
+  // If override exists, return that
+  if (profile_override)
+  {
+    return std::static_pointer_cast<const ProfileType>(profile_override);
+  }
 
+  std::shared_ptr<const ProfileType> results;
+
+  auto it = profile_map.find(profile);
   if (it == profile_map.end())
   {
     CONSOLE_BRIDGE_logDebug("Profile %s was not found. Using default if available. Available profiles:",
@@ -160,8 +167,16 @@ getProfile(const std::string& profile,
     results = default_profile;
   }
   else
-    results = it->second;
-
+  {
+    if (it->second)
+      results = it->second;
+    else
+    {
+      CONSOLE_BRIDGE_logDebug("Profile %s key was found, but value was nullptr. Using default if available",
+                              profile.c_str());
+      results = default_profile;
+    }
+  }
   return results;
 }
 }  // namespace tesseract_planning

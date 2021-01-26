@@ -56,6 +56,30 @@ void CompositeInstruction::setProfile(const std::string& profile)
 }
 const std::string& CompositeInstruction::getProfile() const { return profile_; }
 
+void CompositeInstruction::addProfileOverride(const std::string& task_name, std::shared_ptr<const void> profile)
+{
+  profile_overrides_[task_name] = profile;
+}
+
+void CompositeInstruction::removeProfileOverride(const std::string& task_name) { profile_overrides_.erase(task_name); }
+
+const std::shared_ptr<const void>& CompositeInstruction::getProfileOverride(const std::string& task_name) const
+{
+  if (profile_overrides_.find(task_name) == profile_overrides_.end())
+  {
+    return nullptr;
+  }
+  else
+  {
+    return profile_overrides_.at(task_name);
+  }
+}
+
+std::unordered_map<std::string, std::shared_ptr<const void>> CompositeInstruction::getProfileOverrides() const
+{
+  return profile_overrides_;
+}
+
 void CompositeInstruction::setManipulatorInfo(ManipulatorInfo info) { manipulator_info_ = info; }
 const ManipulatorInfo& CompositeInstruction::getManipulatorInfo() const { return manipulator_info_; }
 ManipulatorInfo& CompositeInstruction::getManipulatorInfo() { return manipulator_info_; }
