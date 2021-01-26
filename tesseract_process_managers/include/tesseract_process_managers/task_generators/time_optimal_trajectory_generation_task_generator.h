@@ -63,6 +63,10 @@ struct TimeOptimalTrajectoryGenerationProfile
 
   /** @brief At least one joint must change by greater than this amount for the point to be added. Default: 0.001*/
   double min_angle_change;
+
+  /** @brief TOTG flattens the Composite structure. If this is true, the task will attempt to restructure the resulting
+   * composite back into the format of the seed. This is required if MoveProfiles are specified*/
+  bool unflatten{ false };
 };
 using TimeOptimalTrajectoryGenerationProfileMap =
     std::unordered_map<std::string, TimeOptimalTrajectoryGenerationProfile::ConstPtr>;
@@ -86,6 +90,15 @@ public:
   int conditionalProcess(TaskInput input, std::size_t unique_id) const override;
 
   void process(TaskInput input, std::size_t unique_id) const override;
+
+  /**
+   * @brief Unflattens a composite from TOTG back into the format of the input pattern
+   * @param flattened_input Composite from TOTG that is completely flat
+   * @param pattern Composite that was the input to TOTG. flattened_input is compared to this to find the corresponding resampled points
+   * @param tolerance Tolerance passed to TOTG. Thi is used to determine which points correspond
+   * @return The unflattened Composite. It should have the same subcomposite structure as pattern.
+   */
+  CompositeInstruction unflatten(const CompositeInstruction& flattened_input, const CompositeInstruction& pattern, double tolerance) const;
 };
 
 class TimeOptimalTrajectoryGenerationTaskInfo : public TaskInfo
