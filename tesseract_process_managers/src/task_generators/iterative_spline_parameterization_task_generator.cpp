@@ -77,13 +77,14 @@ int IterativeSplineParameterizationTaskGenerator::conditionalProcess(TaskInput i
   const ManipulatorInfo& manip_info = ci->getManipulatorInfo();
   const auto fwd_kin = input.env->getManipulatorManager()->getFwdKinematicSolver(manip_info.manipulator);
 
-  // Get Plan Profile
+  // Get Composite Profile
   std::string profile = ci->getProfile();
   profile = getProfileString(profile, name_, input.composite_profile_remapping);
-  auto cur_composite_profile = getProfile<IterativeSplineParameterizationProfile>(
-      profile, composite_profiles, std::make_shared<IterativeSplineParameterizationProfile>());
-  if (!cur_composite_profile)
-    cur_composite_profile = std::make_shared<IterativeSplineParameterizationProfile>();
+  auto cur_composite_profile =
+      getProfile<IterativeSplineParameterizationProfile>(profile,
+                                                         composite_profiles,
+                                                         std::make_shared<IterativeSplineParameterizationProfile>(),
+                                                         ci->getProfileOverride(name_));
 
   // Create data structures for checking for plan profile overrides
   auto flattened = flatten(*ci, moveFilter);
@@ -102,19 +103,19 @@ int IterativeSplineParameterizationTaskGenerator::conditionalProcess(TaskInput i
   // Loop over all PlanInstructions
   for (Eigen::Index idx = 0; idx < static_cast<Eigen::Index>(flattened.size()); idx++)
   {
-    profile = flattened[static_cast<std::size_t>(idx)].get().cast_const<MoveInstruction>()->getProfile();
+    const auto mi = flattened[static_cast<std::size_t>(idx)].get().cast_const<MoveInstruction>();
+    std::string plan_profile = mi->getProfile();
 
     // Check for remapping of the plan profile
-    std::string remap = getProfileString(profile, name_, input.plan_profile_remapping);
-    auto cur_composite_profile = getProfile<IterativeSplineParameterizationProfile>(
-        profile, composite_profiles, std::make_shared<IterativeSplineParameterizationProfile>());
+    plan_profile = getProfileString(profile, name_, input.plan_profile_remapping);
+    auto cur_move_profile = getProfile<IterativeSplineParameterizationProfile>(
+        plan_profile, composite_profiles, nullptr, mi->getProfileOverride(name_));
 
     // If there is a move profile associated with it, override the parameters
-    auto it = move_profiles.find(profile);
-    if (it != move_profiles.end())
+    if (cur_move_profile)
     {
-      velocity_scaling_factors[idx] = it->second->max_velocity_scaling_factor;
-      acceleration_scaling_factors[idx] = it->second->max_acceleration_scaling_factor;
+      velocity_scaling_factors[idx] = cur_move_profile->max_velocity_scaling_factor;
+      acceleration_scaling_factors[idx] = cur_move_profile->max_acceleration_scaling_factor;
     }
   }
 

@@ -185,7 +185,9 @@ SimpleMotionPlanner::getStartInstruction(const PlannerRequest& request,
     {
       throw std::runtime_error("Unsupported waypoint type!");
     }
+    start_instruction_seed.setDescription(start_instruction->getDescription());
     start_instruction_seed.setProfile(start_instruction->getProfile());
+    start_instruction_seed.setProfileOverrides(start_instruction->getProfileOverrides());
     start_instruction_seed.setManipulatorInfo(start_instruction->getManipulatorInfo());
   }
   else

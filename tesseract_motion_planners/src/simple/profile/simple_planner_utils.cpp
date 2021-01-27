@@ -105,6 +105,10 @@ CompositeInstruction getInterpolatedComposite(const std::vector<std::string>& jo
                                               const PlanInstruction& base_instruction)
 {
   CompositeInstruction composite;
+  composite.setManipulatorInfo(base_instruction.getManipulatorInfo());
+  composite.setDescription(base_instruction.getDescription());
+  composite.setProfile(base_instruction.getProfile());
+  composite.setProfileOverrides(base_instruction.getProfileOverrides());
 
   // Get move type base on base instruction type
   MoveInstructionType move_type = getMoveInstructionType(base_instruction);
@@ -116,6 +120,7 @@ CompositeInstruction getInterpolatedComposite(const std::vector<std::string>& jo
     move_instruction.setManipulatorInfo(base_instruction.getManipulatorInfo());
     move_instruction.setDescription(base_instruction.getDescription());
     move_instruction.setProfile(base_instruction.getProfile());
+    move_instruction.setProfileOverrides(base_instruction.getProfileOverrides());
     composite.push_back(move_instruction);
   }
 
