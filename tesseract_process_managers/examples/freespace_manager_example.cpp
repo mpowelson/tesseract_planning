@@ -72,7 +72,7 @@ int main()
 
   // Create Process Planning Request
   ProcessPlanningRequest request;
-  request.name = process_planner_names::FREESPACE_PLANNER_NAME;
+  request.name = process_planner_names::TRAJOPT_PLANNER_NAME;
 
   // Define the program
   CompositeInstruction program = freespaceExampleProgramIIWA();

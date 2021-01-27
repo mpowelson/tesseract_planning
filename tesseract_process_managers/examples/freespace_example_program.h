@@ -4,6 +4,7 @@
 #include <tesseract_common/macros.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <tesseract_command_language/command_language.h>
+#include <tesseract_process_managers/task_generators/time_optimal_trajectory_generation_task_generator.h>
 
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
@@ -26,6 +27,7 @@ inline CompositeInstruction freespaceExampleProgramIIWA(const std::string& compo
     Waypoint wp2 = CartesianWaypoint(Eigen::Isometry3d::Identity() * Eigen::Translation3d(0.2, 0.2, 1.0));
     PlanInstruction plan_f0(wp2, PlanInstructionType::FREESPACE, freespace_profile);
     plan_f0.setDescription("freespace_motion");
+    plan_f0.addProfileOverride("TOTG", std::make_shared<TimeOptimalTrajectoryGenerationProfile>(0.5, 1.0, 0.01, 0.05, 0.001));
     program.push_back(plan_f0);
   }
   // Define target pose 2
@@ -33,6 +35,7 @@ inline CompositeInstruction freespaceExampleProgramIIWA(const std::string& compo
     Waypoint wp3 = JointWaypoint(joint_names, Eigen::VectorXd::Ones(7) * 0.1);
     PlanInstruction plan_f1(wp3, PlanInstructionType::FREESPACE, freespace_profile);
     plan_f1.setDescription("freespace_motion");
+    plan_f1.addProfileOverride("TOTG", std::make_shared<TimeOptimalTrajectoryGenerationProfile>(0.75, 1.0, 0.01, 0.05, 0.001));
     program.push_back(plan_f1);
   }
 

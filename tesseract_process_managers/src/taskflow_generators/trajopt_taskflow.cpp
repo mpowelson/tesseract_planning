@@ -35,6 +35,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 #include <tesseract_process_managers/task_generators/continuous_contact_check_task_generator.h>
 #include <tesseract_process_managers/task_generators/discrete_contact_check_task_generator.h>
 #include <tesseract_process_managers/task_generators/iterative_spline_parameterization_task_generator.h>
+#include <tesseract_process_managers/task_generators/time_optimal_trajectory_generation_task_generator.h>
 #include <tesseract_process_managers/task_generators/seed_min_length_task_generator.h>
 
 #include <tesseract_motion_planners/simple/simple_motion_planner.h>
@@ -134,7 +135,7 @@ TaskflowContainer TrajOptTaskflow::generateTaskflow(TaskInput input, TaskflowVoi
 
   TaskGenerator::UPtr time_parameterization_generator;
   if (params_.enable_time_parameterization)
-    time_parameterization_generator = std::make_unique<IterativeSplineParameterizationTaskGenerator>();
+    time_parameterization_generator = std::make_unique<TimeOptimalTrajectoryGenerationTaskGenerator>();
 
   // Add Final Continuous Contact Check of trajectory and Time parameterization trajectory
   if (has_contact_check && params_.enable_time_parameterization)
