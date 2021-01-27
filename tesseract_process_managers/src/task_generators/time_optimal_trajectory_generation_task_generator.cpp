@@ -154,7 +154,7 @@ int TimeOptimalTrajectoryGenerationTaskGenerator::conditionalProcess(TaskInput i
   // Unflatten
   if (cur_composite_profile->unflatten)
   {
-    CompositeInstruction unflattened = unflatten(resampled, *ci, cur_composite_profile->path_tolerance + 1e-6);
+    CompositeInstruction unflattened = unflatten(resampled, *ci, cur_composite_profile->unflatten_tolerance);
 
     // Rescale
     if (use_move_profile)
@@ -175,7 +175,7 @@ int TimeOptimalTrajectoryGenerationTaskGenerator::conditionalProcess(TaskInput i
       (*ci)[idx] = resampled[idx];
   }
 
-  CONSOLE_BRIDGE_logDebug("TOTG succeeded");
+  CONSOLE_BRIDGE_logWarn("TOTG succeeded");
   info->return_value = 1;
   return 1;
 }
@@ -196,30 +196,54 @@ TimeOptimalTrajectoryGenerationTaskGenerator::unflatten(const CompositeInstructi
 
   Eigen::VectorXd last_pt_in_input = getJointPosition(pattern.at(0).cast_const<CompositeInstruction>()->back().cast_const<MoveInstruction>()->getWaypoint());
 
+  double error = 0;
+  double prev_error = 1;
+  bool hit_tolerance = false;
+  bool error_increasing = false;
+
   // Loop over the flattened composite adding the instructions to the appropriate subcomposite
   for (std::size_t resample_idx = 0, original_idx = 0; resample_idx < flattened_input.size(); resample_idx++)
   {
-    // Add flattened point to the subcomposite
-    unflattened[original_idx].cast<CompositeInstruction>()->push_back(flattened_input.at(resample_idx));
-
     // If all joints are within the tolerance, then this point hopefully corresponds
     if (isMoveInstruction(flattened_input.at(resample_idx)))
     {
       Eigen::VectorXd current_pt =
           getJointPosition(flattened_input.at(resample_idx).cast_const<MoveInstruction>()->getWaypoint());
-      bool increment = true;
-      for (Eigen::Index jnt = 0; jnt < current_pt.size(); jnt++)
-        increment &= std::abs(last_pt_in_input[jnt] - current_pt[jnt]) < tolerance;
+      error = (last_pt_in_input - current_pt).cwiseAbs().maxCoeff();
 
-      // If it corresponds, then start adding points to the subcomposite
-      if (increment)
+      // If it gets within the tolerance, then it is ok to increment
+      if(error < tolerance)
+      {
+        std::cout << "hit tolerance" << std::endl;
+        hit_tolerance = true;
+        }
+      //
+      if(prev_error < error)
+      {
+        std::cout << "increasing. prev:" << prev_error << " error: " << error << std::endl;
+        error_increasing = true;
+      }
+      prev_error = error;
+
+
+
+      std::cout << " Diff: " << (last_pt_in_input - current_pt).cwiseAbs().maxCoeff() << " tol: " << tolerance << std::endl;
+
+      // Wait until the tolerance has been satisfied and the error isn't decreasing anymore before switching composites
+      if (hit_tolerance && error_increasing)
       {
         if(original_idx < pattern.size() - 1)  // Keep from incrementing too far at the end of the last composite
           original_idx++;
-        unflattened[original_idx].cast<CompositeInstruction>()->clear();
         last_pt_in_input = getJointPosition(pattern.at(original_idx).cast_const<CompositeInstruction>()->back().cast_const<MoveInstruction>()->getWaypoint());
+
+        hit_tolerance = false;
+        error_increasing = false;
+
       }
     }
+
+    // Add flattened point to the subcomposite
+    unflattened[original_idx].cast<CompositeInstruction>()->push_back(flattened_input.at(resample_idx));
   }
   return unflattened;
 }

@@ -67,6 +67,9 @@ struct TimeOptimalTrajectoryGenerationProfile
   /** @brief TOTG flattens the Composite structure. If this is true, the task will attempt to restructure the resulting
    * composite back into the format of the seed. This is required if MoveProfiles are specified*/
   bool unflatten{ true };
+
+  /** @brief Tolerance used to unflatten results. When resample_dt is small, this can be close to path_tolerance. When resample_dt is large, this may have to be significanly larger*/
+  double unflatten_tolerance { 0.3 };
 };
 using TimeOptimalTrajectoryGenerationProfileMap =
     std::unordered_map<std::string, TimeOptimalTrajectoryGenerationProfile::ConstPtr>;
