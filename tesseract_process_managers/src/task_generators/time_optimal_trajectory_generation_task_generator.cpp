@@ -162,7 +162,7 @@ int TimeOptimalTrajectoryGenerationTaskGenerator::conditionalProcess(TaskInput i
       RescaleTimings(unflattened, scaling_factors);
     }
 
-    for(std::size_t idx = 0; idx < ci->size(); idx++)
+    for (std::size_t idx = 0; idx < ci->size(); idx++)
       (*ci)[idx] = unflattened[idx];
   }
   else
@@ -171,11 +171,11 @@ int TimeOptimalTrajectoryGenerationTaskGenerator::conditionalProcess(TaskInput i
       CONSOLE_BRIDGE_logWarn("TOTG Move Profile specified but unflatten is not set in the composite profile. Move "
                              "Profile will be ignored");
 
-    for(std::size_t idx = 0; idx < ci->size(); idx++)
+    for (std::size_t idx = 0; idx < ci->size(); idx++)
       (*ci)[idx] = resampled[idx];
   }
 
-  CONSOLE_BRIDGE_logWarn("TOTG succeeded");
+  CONSOLE_BRIDGE_logDebug("TOTG succeeded");
   info->return_value = 1;
   return 1;
 }
@@ -194,7 +194,8 @@ TimeOptimalTrajectoryGenerationTaskGenerator::unflatten(const CompositeInstructi
   for (auto& instr : unflattened)
     instr.cast<CompositeInstruction>()->clear();
 
-  Eigen::VectorXd last_pt_in_input = getJointPosition(pattern.at(0).cast_const<CompositeInstruction>()->back().cast_const<MoveInstruction>()->getWaypoint());
+  Eigen::VectorXd last_pt_in_input = getJointPosition(
+      pattern.at(0).cast_const<CompositeInstruction>()->back().cast_const<MoveInstruction>()->getWaypoint());
 
   double error = 0;
   double prev_error = 1;
@@ -211,34 +212,30 @@ TimeOptimalTrajectoryGenerationTaskGenerator::unflatten(const CompositeInstructi
           getJointPosition(flattened_input.at(resample_idx).cast_const<MoveInstruction>()->getWaypoint());
       error = (last_pt_in_input - current_pt).cwiseAbs().maxCoeff();
 
-      // If it gets within the tolerance, then it is ok to increment
-      if(error < tolerance)
+      // Check if we've hit the tolerance and if the error is still decreasing
+      if (error < tolerance)
       {
-        std::cout << "hit tolerance" << std::endl;
         hit_tolerance = true;
-        }
-      //
-      if(prev_error < error)
+      }
+      if (prev_error < error)
       {
-        std::cout << "increasing. prev:" << prev_error << " error: " << error << std::endl;
         error_increasing = true;
       }
       prev_error = error;
 
-
-
-      std::cout << " Diff: " << (last_pt_in_input - current_pt).cwiseAbs().maxCoeff() << " tol: " << tolerance << std::endl;
-
       // Wait until the tolerance has been satisfied and the error isn't decreasing anymore before switching composites
       if (hit_tolerance && error_increasing)
       {
-        if(original_idx < pattern.size() - 1)  // Keep from incrementing too far at the end of the last composite
+        if (original_idx < pattern.size() - 1)  // Keep from incrementing too far at the end of the last composite
           original_idx++;
-        last_pt_in_input = getJointPosition(pattern.at(original_idx).cast_const<CompositeInstruction>()->back().cast_const<MoveInstruction>()->getWaypoint());
+        last_pt_in_input = getJointPosition(pattern.at(original_idx)
+                                                .cast_const<CompositeInstruction>()
+                                                ->back()
+                                                .cast_const<MoveInstruction>()
+                                                ->getWaypoint());
 
         hit_tolerance = false;
         error_increasing = false;
-
       }
     }
 

@@ -38,47 +38,49 @@ namespace tesseract_planning
 /**
  * @brief Rescale the sub-composites of a program linearly
  * @param program Input to be scaled. Each element should be a CompositeInstruction
- * @param scalings Scaling to apply to each sub-composite. Should be length program.size(). Example: 0.5 will be half speed
+ * @param scalings Scaling to apply to each sub-composite. Should be length program.size(). Example: 0.5 will be half
+ * speed
  * @return True if successful
  */
-  void RescaleTimings(CompositeInstruction& program, std::vector<double> scalings)
+void RescaleTimings(CompositeInstruction& program, std::vector<double> scalings)
+{
+  assert(program.size() == scalings.size());
+
+  double prev_time_scaled = 0;
+  double prev_time_original = 0;
+  for (std::size_t sub_composite_idx = 0; sub_composite_idx < program.size(); sub_composite_idx++)
   {
-    assert(program.size() == scalings.size());
-
-    double prev_time_scaled = 0;
-    double prev_time_original = 0;
-    for (std::size_t sub_composite_idx = 0; sub_composite_idx < program.size(); sub_composite_idx++)
+    CompositeInstruction* sub = program[sub_composite_idx].cast<CompositeInstruction>();
+    for (std::size_t move_idx = 0; move_idx < sub->size(); move_idx++)
     {
-      CompositeInstruction* sub = program[sub_composite_idx].cast<CompositeInstruction>();
-      for (std::size_t move_idx = 0; move_idx < sub->size(); move_idx++)
+      if (isMoveInstruction(sub->at(move_idx)))
       {
-        if (isMoveInstruction(sub->at(move_idx)))
+        auto move = sub->at(move_idx).cast<MoveInstruction>();
+        if (isStateWaypoint(move->getWaypoint()))
         {
-          auto move = sub->at(move_idx).cast<MoveInstruction>();
-          if (isStateWaypoint(move->getWaypoint()))
+          StateWaypoint* state = move->getWaypoint().cast<StateWaypoint>();
+
+          double scaling_factor = scalings[sub_composite_idx];
+          if (scaling_factor < 1e-6)
           {
-            StateWaypoint* state = move->getWaypoint().cast<StateWaypoint>();
-
-            double scaling_factor = scalings[sub_composite_idx];
-            if (scaling_factor < 1e-6)
-            {
-              CONSOLE_BRIDGE_logWarn("Scaling factor is close to 0 (%f), defaulting to 1", scaling_factor);
-              scaling_factor = 1.0;
-            }
-
-            state->velocity = state->velocity * scaling_factor;
-            state->acceleration = state->acceleration * scaling_factor * scaling_factor;
-            state->effort = state->effort * scaling_factor * scaling_factor;
-
-            double temp = state->time;
-            state->time = prev_time_scaled + (state->time - prev_time_original) / scaling_factor;  // scale dt and add to previous time
-            prev_time_scaled = state->time;
-            prev_time_original = temp;
+            CONSOLE_BRIDGE_logWarn("Scaling factor is close to 0 (%f), defaulting to 1", scaling_factor);
+            scaling_factor = 1.0;
           }
+
+          state->velocity = state->velocity * scaling_factor;
+          state->acceleration = state->acceleration * scaling_factor * scaling_factor;
+          state->effort = state->effort * scaling_factor * scaling_factor;
+
+          double temp = state->time;
+          state->time = prev_time_scaled +
+                        (state->time - prev_time_original) / scaling_factor;  // scale dt and add to previous time
+          prev_time_scaled = state->time;
+          prev_time_original = temp;
         }
       }
     }
   }
+}
 }  // namespace tesseract_planning
 
 #endif
