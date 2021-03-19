@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['lazyprmstar_2221',['LazyPRMstar',['../d9/dcd/namespacetesseract__planning.html#aaced124f80faedf64173b4b9ae5bf009a047fad3f3eff568f580d6ef5796e1e8f',1,'tesseract_planning']]],
-  ['lbkpiece1_2222',['LBKPIECE1',['../d9/dcd/namespacetesseract__planning.html#aaced124f80faedf64173b4b9ae5bf009a7add8dcabb8ec7cd4b9df9f81e770b06',1,'tesseract_planning']]]
+  ['joint_5fwaypoint_2943',['JOINT_WAYPOINT',['../d9/dcd/namespacetesseract__planning.html#a4dc98c0138d35a000f6d6c275192b30babbff404565b92c7fb482703b27957bcb',1,'tesseract_planning']]]
 ];

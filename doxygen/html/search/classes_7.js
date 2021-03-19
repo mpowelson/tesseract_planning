@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kpiece1configurator_1126',['KPIECE1Configurator',['../dc/d9a/structtesseract__planning_1_1KPIECE1Configurator.html',1,'tesseract_planning']]]
+  ['jointwaypoint_1478',['JointWaypoint',['../d7/d93/classtesseract__planning_1_1JointWaypoint.html',1,'tesseract_planning']]]
 ];

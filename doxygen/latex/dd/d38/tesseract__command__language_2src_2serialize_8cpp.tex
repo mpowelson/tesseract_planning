@@ -1,0 +1,68 @@
+\hypertarget{tesseract__command__language_2src_2serialize_8cpp}{}\doxysection{tesseract\+\_\+command\+\_\+language/src/serialize.cpp File Reference}
+\label{tesseract__command__language_2src_2serialize_8cpp}\index{tesseract\_command\_language/src/serialize.cpp@{tesseract\_command\_language/src/serialize.cpp}}
+{\ttfamily \#include $<$tesseract\+\_\+common/macros.\+h$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$console\+\_\+bridge/console.\+h$>$}\newline
+{\ttfamily \#include $<$boost/algorithm/string/classification.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/algorithm/string/split.\+hpp$>$}\newline
+{\ttfamily \#include $<$tesseract\+\_\+command\+\_\+language/impl/serialize.\+hpp$>$}\newline
+{\ttfamily \#include $<$tesseract\+\_\+command\+\_\+language/core/instruction.\+h$>$}\newline
+{\ttfamily \#include $<$tesseract\+\_\+command\+\_\+language/core/waypoint.\+h$>$}\newline
+Include dependency graph for serialize.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{da/d08/tesseract__command__language_2src_2serialize_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacetesseract__planning}{tesseract\+\_\+planning}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+template std\+::shared\+\_\+ptr$<$ tinyxml2\+::\+XMLDocument $>$ \mbox{\hyperlink{namespacetesseract__planning_abbac051c41607966d0c70d9b6086794a}{tesseract\+\_\+planning\+::to\+XMLDocument$<$ Instruction $>$}} (const Instruction \&input)
+\item 
+template bool \mbox{\hyperlink{namespacetesseract__planning_aea41b830f9f7b783c57a01edaa1426f7}{tesseract\+\_\+planning\+::to\+XMLFile$<$ Instruction $>$}} (const Instruction \&instruction, const std\+::string \&file\+\_\+path)
+\item 
+template std\+::string \mbox{\hyperlink{namespacetesseract__planning_a7b81bf0afca4195bdbea8610f67d8989}{tesseract\+\_\+planning\+::to\+XMLString$<$ Instruction $>$}} (const Instruction \&instruction)
+\item 
+template std\+::shared\+\_\+ptr$<$ tinyxml2\+::\+XMLDocument $>$ \mbox{\hyperlink{namespacetesseract__planning_a0272509aa07e8c16a69323cc1892eae4}{tesseract\+\_\+planning\+::to\+XMLDocument$<$ Waypoint $>$}} (const Waypoint \&input)
+\item 
+template bool \mbox{\hyperlink{namespacetesseract__planning_af1152a54988d0bb45c1e25172969f529}{tesseract\+\_\+planning\+::to\+XMLFile$<$ Waypoint $>$}} (const Waypoint \&input, const std\+::string \&file\+\_\+path)
+\item 
+template std\+::string \mbox{\hyperlink{namespacetesseract__planning_a540cd1e15edc446896a85e40fb7307c2}{tesseract\+\_\+planning\+::to\+XMLString$<$ Waypoint $>$}} (const Waypoint \&input)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Levi Armstrong 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+June 15, 2020 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+TODO 
+\end{DoxyVersion}
+\begin{DoxyRefDesc}{Bug}
+\item[\mbox{\hyperlink{bug__bug000037}{Bug}}]No known bugs\end{DoxyRefDesc}
+
+
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2020, Southwest Research Institute
+\end{DoxyCopyright}
+\begin{DoxyParagraph}{License}
+Software License Agreement (Apache License) 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Licensed under the Apache License, Version 2.\+0 (the \char`\"{}\+License\char`\"{}); you may not use this file except in compliance with the License. You may obtain a copy of the License at \href{http://www.apache.org/licenses/LICENSE-2.0}{\texttt{ http\+://www.\+apache.\+org/licenses/\+LICENSE-\/2.\+0}} 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+AS IS\char`\"{} BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+\end{DoxyParagraph}

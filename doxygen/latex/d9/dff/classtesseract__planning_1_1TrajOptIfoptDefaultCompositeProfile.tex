@@ -31,14 +31,14 @@ Collaboration diagram for tesseract\+\_\+planning\+::Traj\+Opt\+Ifopt\+Default\+
 \item 
 \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a86c79cb7b8dde89c8bfdc53e497a7cf0}{Traj\+Opt\+Ifopt\+Default\+Composite\+Profile}} (const tinyxml2\+::\+XMLElement \&xml\+\_\+element)
 \item 
-void \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_ab984cb7af7ba53c9c0690c78905fb39a}{apply}} (\mbox{\hyperlink{structtesseract__planning_1_1TrajOptIfoptProblem}{Traj\+Opt\+Ifopt\+Problem}} \&problem, int start\+\_\+index, int end\+\_\+index, const Manipulator\+Info \&manip\+\_\+info, const std\+::vector$<$ std\+::string $>$ \&active\+\_\+links, const std\+::vector$<$ int $>$ \&fixed\+\_\+indices) const override
+void \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_ab984cb7af7ba53c9c0690c78905fb39a}{apply}} (\mbox{\hyperlink{structtesseract__planning_1_1TrajOptIfoptProblem}{Traj\+Opt\+Ifopt\+Problem}} \&problem, int start\+\_\+index, int end\+\_\+index, const \mbox{\hyperlink{namespacetesseract__planning_aa96fe6a7234303baeef3b4a8afcedfc4}{Manipulator\+Info}} \&manip\+\_\+info, const std\+::vector$<$ std\+::string $>$ \&active\+\_\+links, const std\+::vector$<$ int $>$ \&fixed\+\_\+indices) const override
 \item 
 tinyxml2\+::\+XMLElement $\ast$ \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a5a46117ae1e6dfb6f77cad3da7c35925}{to\+XML}} (tinyxml2\+::\+XMLDocument \&doc) const override
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-trajopt\+::\+Traj\+Opt\+Collision\+Config\+::\+Ptr \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a253064e0ee7379e31c0f9fa4c350ad27}{collision\+\_\+cost\+\_\+config}}
+trajopt\+::\+Traj\+Opt\+Collision\+Config\+::\+Ptr \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a253064e0ee7379e31c0f9fa4c350ad27}{collision\+\_\+cost\+\_\+config}} \{ std\+::make\+\_\+shared$<$trajopt\+::\+Traj\+Opt\+Collision\+Config$>$() \}
 \begin{DoxyCompactList}\small\item\em Configuration info for collisions that are modeled as costs. \end{DoxyCompactList}\item 
 trajopt\+::\+Traj\+Opt\+Collision\+Config\+::\+Ptr \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a698cf0ba0e2712e9741f3dddcf24c43e}{collision\+\_\+constraint\+\_\+config}}
 \begin{DoxyCompactList}\small\item\em Configuration info for collisions that are modeled as constraints. \end{DoxyCompactList}\item 
@@ -46,11 +46,11 @@ bool \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositePr
 \begin{DoxyCompactList}\small\item\em If true, a joint velocity cost with a target of 0 will be applied for all timesteps Default\+: true. \end{DoxyCompactList}\item 
 Eigen\+::\+Vector\+Xd \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a4a83f5549c87a122935a96bdd0fc05d2}{velocity\+\_\+coeff}}
 \begin{DoxyCompactList}\small\item\em This default to all ones, but allows you to weight different joints. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a4ff0d69837d6de209dbe64aa04cee05c}{smooth\+\_\+accelerations}} = true
+bool \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a4ff0d69837d6de209dbe64aa04cee05c}{smooth\+\_\+accelerations}} = false
 \begin{DoxyCompactList}\small\item\em If true, a joint acceleration cost with a target of 0 will be applied for all timesteps Default\+: false. \end{DoxyCompactList}\item 
 Eigen\+::\+Vector\+Xd \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a7950e891af271fdbb327b5b9b08928fd}{acceleration\+\_\+coeff}}
 \begin{DoxyCompactList}\small\item\em This default to all ones, but allows you to weight different joints. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_afd27a78ced3766a482981542e695e8aa}{smooth\+\_\+jerks}} = true
+bool \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_afd27a78ced3766a482981542e695e8aa}{smooth\+\_\+jerks}} = false
 \begin{DoxyCompactList}\small\item\em If true, a joint jerk cost with a target of 0 will be applied for all timesteps Default\+: false. \end{DoxyCompactList}\item 
 Eigen\+::\+Vector\+Xd \mbox{\hyperlink{classtesseract__planning_1_1TrajOptIfoptDefaultCompositeProfile_a8744cc58b30ce9c960dfa210421a7c75}{jerk\+\_\+coeff}}
 \begin{DoxyCompactList}\small\item\em This default to all ones, but allows you to weight different joints. \end{DoxyCompactList}\item 
@@ -85,7 +85,7 @@ trajopt\+::\+Safety\+Margin\+Data\+::\+Ptr \mbox{\hyperlink{classtesseract__plan
 \index{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}!apply@{apply}}
 \index{apply@{apply}!tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}}
 \doxysubsubsection{\texorpdfstring{apply()}{apply()}}
-{\footnotesize\ttfamily void tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::apply (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtesseract__planning_1_1TrajOptIfoptProblem}{Traj\+Opt\+Ifopt\+Problem}} \&}]{problem,  }\item[{int}]{start\+\_\+index,  }\item[{int}]{end\+\_\+index,  }\item[{const Manipulator\+Info \&}]{manip\+\_\+info,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{active\+\_\+links,  }\item[{const std\+::vector$<$ int $>$ \&}]{fixed\+\_\+indices }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::apply (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structtesseract__planning_1_1TrajOptIfoptProblem}{Traj\+Opt\+Ifopt\+Problem}} \&}]{problem,  }\item[{int}]{start\+\_\+index,  }\item[{int}]{end\+\_\+index,  }\item[{const \mbox{\hyperlink{namespacetesseract__planning_aa96fe6a7234303baeef3b4a8afcedfc4}{Manipulator\+Info}} \&}]{manip\+\_\+info,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{active\+\_\+links,  }\item[{const std\+::vector$<$ int $>$ \&}]{fixed\+\_\+indices }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -120,6 +120,13 @@ This default to all ones, but allows you to weight different joints.
 \doxysubsubsection{\texorpdfstring{collision\_constraint\_config}{collision\_constraint\_config}}
 {\footnotesize\ttfamily trajopt\+::\+Traj\+Opt\+Collision\+Config\+::\+Ptr tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::collision\+\_\+constraint\+\_\+config}
 
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    std::make\_shared<trajopt::TrajOptCollisionConfig>()}
+\DoxyCodeLine{  \}}
+
+\end{DoxyCode}
 
 
 Configuration info for collisions that are modeled as constraints. 
@@ -128,7 +135,7 @@ Configuration info for collisions that are modeled as constraints.
 \index{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}!collision\_cost\_config@{collision\_cost\_config}}
 \index{collision\_cost\_config@{collision\_cost\_config}!tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}}
 \doxysubsubsection{\texorpdfstring{collision\_cost\_config}{collision\_cost\_config}}
-{\footnotesize\ttfamily trajopt\+::\+Traj\+Opt\+Collision\+Config\+::\+Ptr tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::collision\+\_\+cost\+\_\+config}
+{\footnotesize\ttfamily trajopt\+::\+Traj\+Opt\+Collision\+Config\+::\+Ptr tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::collision\+\_\+cost\+\_\+config \{ std\+::make\+\_\+shared$<$trajopt\+::\+Traj\+Opt\+Collision\+Config$>$() \}}
 
 
 
@@ -170,7 +177,7 @@ Note\+: This gets converted to longest\+\_\+valid\+\_\+segment\+\_\+fraction. lo
 \index{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}!smooth\_accelerations@{smooth\_accelerations}}
 \index{smooth\_accelerations@{smooth\_accelerations}!tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}}
 \doxysubsubsection{\texorpdfstring{smooth\_accelerations}{smooth\_accelerations}}
-{\footnotesize\ttfamily bool tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::smooth\+\_\+accelerations = true}
+{\footnotesize\ttfamily bool tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::smooth\+\_\+accelerations = false}
 
 
 
@@ -180,7 +187,7 @@ If true, a joint acceleration cost with a target of 0 will be applied for all ti
 \index{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}!smooth\_jerks@{smooth\_jerks}}
 \index{smooth\_jerks@{smooth\_jerks}!tesseract\_planning::TrajOptIfoptDefaultCompositeProfile@{tesseract\_planning::TrajOptIfoptDefaultCompositeProfile}}
 \doxysubsubsection{\texorpdfstring{smooth\_jerks}{smooth\_jerks}}
-{\footnotesize\ttfamily bool tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::smooth\+\_\+jerks = true}
+{\footnotesize\ttfamily bool tesseract\+\_\+planning\+::\+Traj\+Opt\+Ifopt\+Default\+Composite\+Profile\+::smooth\+\_\+jerks = false}
 
 
 
