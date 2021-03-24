@@ -359,6 +359,21 @@ bool toDelimitedFile(const CompositeInstruction& composite_instructions, const s
 CompositeInstruction generateSkeletonSeed(const CompositeInstruction& composite_instructions)
 {
   CompositeInstruction seed = composite_instructions;
+  // Set start instruction
+  if(composite_instructions.hasStartInstruction())
+  {
+    if(isPlanInstruction(composite_instructions.getStartInstruction()))
+    {
+      const PlanInstruction* start_instruction = composite_instructions.getStartInstruction().cast_const<PlanInstruction>();
+      MoveInstruction move_start_instruction_seed(start_instruction->getWaypoint(),
+                                                  MoveInstructionType::START,
+                                                  start_instruction->getProfile(),
+                                                  start_instruction->getManipulatorInfo());
+      move_start_instruction_seed.profile_overrides = start_instruction->profile_overrides;
+      seed.setStartInstruction(move_start_instruction_seed);
+    }
+  }
+
   generateSkeletonSeedHelper(seed);
   return seed;
 }

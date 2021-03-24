@@ -243,6 +243,7 @@ tesseract_common::StatusCode OMPLMotionPlanner::solve(const PlannerRequest& requ
   std::size_t instructions_idx = 0;  // Index for each input instruction
 
   // Handle the start instruction
+  assert(isPlanInstruction(instructions_flattened.at(0).get()));
   const auto* plan_instruction = instructions_flattened.at(0).get().cast_const<PlanInstruction>();
   if (plan_instruction->isStart())
   {
