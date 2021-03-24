@@ -280,11 +280,17 @@ tesseract_common::StatusCode OMPLMotionPlanner::solve(const PlannerRequest& requ
 
       // Loop over the flattened results and add them to response if the input was a plan instruction
       auto* move_instructions = results_flattened[instructions_idx].get().cast<CompositeInstruction>();
-      // Adjust result index to align final point since start instruction is already handled
-      Eigen::Index result_index = trajectory.rows() - static_cast<Eigen::Index>(move_instructions->size());
-      for (auto& instruction : *move_instructions)
-        instruction.cast<MoveInstruction>()->getWaypoint().cast<StateWaypoint>()->position =
-            trajectory.row(result_index++);
+      Instruction pattern;
+      if (!move_instructions->empty())
+        pattern = move_instructions->front();
+
+      move_instructions->clear();
+      for (Eigen::Index result_idx = 0; result_idx < trajectory.rows(); result_idx++)
+      {
+        MoveInstruction row(*pattern.cast<MoveInstruction>());
+        row.getWaypoint().cast<StateWaypoint>()->position = trajectory.row(result_idx);
+        move_instructions->push_back(row);
+      }
 
       // Increment the problem
       prob_idx++;
