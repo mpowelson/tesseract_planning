@@ -180,13 +180,18 @@ void TrajOptDefaultPlanProfile::apply(trajopt::ProblemConstructionInfo& pci,
                                       int index) const
 {
   trajopt::TermInfo::Ptr ti;
-  if (joint_waypoint.isToleranced())
-    ti = createTolerancedJointWaypointTermInfo(
-        joint_waypoint, joint_waypoint.lower_tolerance, joint_waypoint.upper_tolerance, index, joint_coeff, term_type);
-  else
-    ti = createJointWaypointTermInfo(joint_waypoint, index, joint_coeff, term_type);
+  auto tt = term_type;
+  if(joint_waypoint.isToleranced())
+    tt = trajopt::TermType::TT_COST;
 
-  if (term_type == trajopt::TermType::TT_CNT)
+  if (joint_waypoint.isToleranced())
+    ti = createJointWaypointTermInfo(joint_waypoint, index, joint_coeff, tt);
+//    ti = createTolerancedJointWaypointTermInfo(
+//        joint_waypoint, joint_waypoint.lower_tolerance, joint_waypoint.upper_tolerance, index, joint_coeff, tt);
+  else
+    ti = createJointWaypointTermInfo(joint_waypoint, index, joint_coeff, tt);
+
+  if (tt == trajopt::TermType::TT_CNT)
     pci.cnt_infos.push_back(ti);
   else
     pci.cost_infos.push_back(ti);
