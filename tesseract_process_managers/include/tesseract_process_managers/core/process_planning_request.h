@@ -73,6 +73,14 @@ struct ProcessPlanningRequest
    * for a given motion planner. (Optional)
    */
   PlannerProfileRemapping composite_profile_remapping;
+
+  bool operator==(const ProcessPlanningRequest& rhs) const;
+  bool operator!=(const ProcessPlanningRequest& rhs) const;
+
+private:
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive& ar, const unsigned int version);  // NOLINT
 };
 
 namespace process_planner_names

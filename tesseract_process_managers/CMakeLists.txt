@@ -45,6 +45,7 @@ add_library(${PROJECT_NAME}
     src/core/debug_observer.cpp
     src/core/task_generator.cpp
     src/core/process_planning_future.cpp
+    src/core/process_planning_request.cpp
     src/core/process_planning_server.cpp
     src/core/process_environment_cache.cpp
     src/core/taskflow_interface.cpp
